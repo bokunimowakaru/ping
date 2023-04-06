@@ -6,8 +6,9 @@ This repository contains ICMP Ping examples for leaning Ping protocol.
 * icmp_logger.py
 * icmp_sender.py
 
-## Usage
+## Usage for Raspberry Pi  
 
+The ".py" example files on the root directory are for Raspberry Pi OS and the other Linux distributions.  
 These files are needed the super user privileges.  So, please add a "sudo" command to the beginning of these files to run.  
 
 	pi@raspberry:~/ping $ sudo ./icmp_ping.py  
@@ -29,6 +30,13 @@ These files are needed the super user privileges.  So, please add a "sudo" comma
 	Identifier  = e5b9  
 	Sequence N  = 7e85  
 
+## Usage for Raspberry Pi Pico W, ESP32 (MicroPython)
+
+In the "pico" directory, there are also some files coded in MicroPython for Raspberry Pi Pico W, ESP32.  
+They send ICMP Pings to Google DNS (8.8.8.8).  If you don't like to send out from your LAN, please modify the IP address in the line of "adr = '8.8.8.8'" to your device on the LAN.  
+
+	adr = '8.8.8.8'         # Google DNS
+	adr = '192.168.1.1'     # e.g. Gateway on the LAN
 
 ## GitHub Pages (This Document)
 
