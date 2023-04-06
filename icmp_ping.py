@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # coding: utf-8
-# ICMPを送信する
+# ICMPでPingを送受信する
 # Copyright (c) 2023 Wataru KUNINO
 
-# ICMPを送信します。
+# ICMPでPingの送受信を行います。
 # sudo ./icmp_ping.py
 
 # 第1引数は宛先IPアドレスです。
