@@ -33,7 +33,7 @@ def checksum_calc(payload):
     sum = ~(sum) & 0xFFFF
     return sum.to_bytes(2, 'big')
 
-print('ICMP Ping Sender Reciever')                      # タイトル表示
+print('ICMP Ping Sender / Reciever')            # タイトル表示
 body = '0123456789ABCDEF'
 led = Pin("LED", Pin.OUT)                       # Pico W LED用ledを生成
 
@@ -69,49 +69,50 @@ while True:
         while True:
             print(e)                                # エラー内容を表示
             sleep(3)                                # 3秒の待ち時間処理
-
     print('ICMP TX('+('{:02x}'.format(len(payload)))+')',end=' : ')
     for c in payload:
         print('{:02x}'.format(c), end=' ')          # 受信データを表示
     print()
-    sock.sendto(payload,(adr,0))       # Ping送信
-    # sock.setsockopt(socket.SOL_IP, socket.IP_HDRINCL, 1) #
+    sock.sendto(payload,(adr,0))                    # Ping送信
+    # sock.setsockopt(socket.SOL_IP, socket.IP_HDRINCL, 1)
     sock.settimeout(1)
-    try:
-        icmp = sock.recv(256)                   # 受信データの取得
-    except Exception as e:                      # 例外処理発生時
-        print(e)                                # エラー内容を表示
-        break
-    length = int(256 * icmp[2] + icmp[3])
-    header_length = int((icmp[0]%16)*4)
-    protocol = icmp[9]
-    source_adr_s = str(icmp[12])+'.'+str(icmp[13])+'.'+str(icmp[14])+'.'+str(icmp[15])
-    dest_adr_s = str(icmp[16])+'.'+str(icmp[17])+'.'+str(icmp[18])+'.'+str(icmp[19])
-    if icmp[0] == 0x45 and protocol == 0x01 and length == len(icmp) and icmp[20] == 0x00:
-        icmp_len = length - header_length
-        identifier = int.from_bytes(icmp[24:26], 'big')
-        sequence = int.from_bytes(icmp[26:28], 'big')
-        check = not int.from_bytes(checksum_calc(icmp[20:]),'big')
-        if identifier == int.from_bytes(icm_idnt,'big') and sequence == int.from_bytes(icm_snum,'big') and check:
-            # icmp[0] == 0x45: IPv4と、IPヘッダ長20バイトに限定
-            print('ICMP RX('+'{:02x}'.format(icmp_len)+')',end=' : ')
-            for i in range(len(icmp)-len(payload),len(icmp)):
-                print('{:02x}'.format(icmp[i]), end=' ')               # 受信データを表示
-            print()
-            print('IP Version  =','v'+str(int(icmp[0]>>4)))
-            print('IP Header   =',header_length)
-            print('IP Length   =',length)
-            print('Protocol    =','0x'+('{:02x}'.format(protocol)))
-            print('Source      =',source_adr_s)
-            print('Destination =',dest_adr_s)
-            print('ICMP Length =',icmp_len)
-            print('ICMP Type   =','{:02x}'.format(icmp[20]))
-            print('ICMP Code   =','{:02x}'.format(icmp[21]))
-            print('Checksum    =', 'Passed' if check else 'Failed')
-            print('Identifier  =','{:04x}'.format(identifier))
-            print('Sequence N  =','{:04x}'.format(sequence))
-            if icmp_len > 8:
-                print('ICMP Data   =',icmp[28:].decode())
+    while sock:
+        try:
+            icmp = sock.recv(256)                   # 受信データの取得
+        except Exception as e:                      # 例外処理発生時
+            print(e)                                # エラー内容を表示
+            break
+        length = int(256 * icmp[2] + icmp[3])
+        header_length = int((icmp[0]%16)*4)
+        protocol = icmp[9]
+        source_adr_s = str(icmp[12])+'.'+str(icmp[13])+'.'+str(icmp[14])+'.'+str(icmp[15])
+        dest_adr_s = str(icmp[16])+'.'+str(icmp[17])+'.'+str(icmp[18])+'.'+str(icmp[19])
+        if icmp[0] == 0x45 and protocol == 0x01 and length == len(icmp) and icmp[20] == 0x00:
+            icmp_len = length - header_length
+            identifier = int.from_bytes(icmp[24:26], 'big')
+            sequence = int.from_bytes(icmp[26:28], 'big')
+            check = not int.from_bytes(checksum_calc(icmp[20:]),'big')
+            if identifier == int.from_bytes(icm_idnt,'big') and sequence == int.from_bytes(icm_snum,'big') and check:
+                # icmp[0] == 0x45: IPv4と、IPヘッダ長20バイトに限定
+                print('ICMP RX('+'{:02x}'.format(icmp_len)+')',end=' : ')
+                for i in range(len(icmp)-len(payload),len(icmp)):
+                    print('{:02x}'.format(icmp[i]), end=' ')               # 受信データを表示
+                print()
+                print('IP Version  =','v'+str(int(icmp[0]>>4)))
+                print('IP Header   =',header_length)
+                print('IP Length   =',length)
+                print('Protocol    =','0x'+('{:02x}'.format(protocol)))
+                print('Source      =',source_adr_s)
+                print('Destination =',dest_adr_s)
+                print('ICMP Length =',icmp_len)
+                print('ICMP Type   =','{:02x}'.format(icmp[20]))
+                print('ICMP Code   =','{:02x}'.format(icmp[21]))
+                print('Checksum    =', 'Passed' if check else 'Failed')
+                print('Identifier  =','{:04x}'.format(identifier))
+                print('Sequence N  =','{:04x}'.format(sequence))
+                if icmp_len > 8:
+                    print('ICMP Data   =',icmp[28:].decode())
+                break
     sock.close()                                    # ソケットの切断
     led.value(0)                                    # LEDをOFFにする
     sleep(30)                                       # 30秒間の待ち時間処理

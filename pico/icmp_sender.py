@@ -32,7 +32,7 @@ def checksum_calc(payload):
     sum = ~(sum) & 0xFFFF
     return sum.to_bytes(2, 'big')
 
-print('ICMP Sender')                                # タイトル表示
+print('ICMP Sender')                            # タイトル表示
 body = '0123456789ABCDEF'
 led = Pin("LED", Pin.OUT)                       # Pico W LED用ledを生成
 
@@ -68,27 +68,26 @@ while True:
         while True:
             print(e)                                # エラー内容を表示
             sleep(3)                                # 3秒の待ち時間処理
-    if sock:                                        # 作成に成功したとき
-        print('ICMP TX('+('{:02x}'.format(len(payload)))+')',end=' : ')
-        for c in payload:
-            print('{:02x}'.format(c), end=' ')      # 受信データを表示
-        print()
-        sock.sendto(payload,(adr,0))       # Ping送信
-        # sock.setsockopt(socket.SOL_IP, socket.IP_HDRINCL, 1) #
-        sock.settimeout(1)
-        while sock:
-            try:
-                icmp = sock.recv(256)               # 受信データの取得
-            except Exception as e:                  # 例外処理発生時
-                print(e)                            # エラー内容を表示
-                break
-            if icmp[0] == 0x45 and icmp[9] == 0x01 and icmp[20] == 0x00\
-              and int.from_bytes(icmp[24:26], 'big') == int.from_bytes(icm_idnt,'big')\
-              and int.from_bytes(icmp[26:28], 'big') == int.from_bytes(icm_snum,'big')\
-              and  not int.from_bytes(checksum_calc(icmp[20:]),'big'):
-                print("Passed")
-                break
-        sock.close()                                # ソケットの切断
+    print('ICMP TX('+('{:02x}'.format(len(payload)))+')',end=' : ')
+    for c in payload:
+        print('{:02x}'.format(c), end=' ')          # 受信データを表示
+    print()
+    sock.sendto(payload,(adr,0))                    # Ping送信
+    # sock.setsockopt(socket.SOL_IP, socket.IP_HDRINCL, 1)
+    sock.settimeout(1)
+    while sock:
+        try:
+            icmp = sock.recv(256)                   # 受信データの取得
+        except Exception as e:                      # 例外処理発生時
+            print(e)                                # エラー内容を表示
+            break
+        if icmp[0] == 0x45 and icmp[9] == 0x01 and icmp[20] == 0x00\
+          and int.from_bytes(icmp[24:26], 'big') == int.from_bytes(icm_idnt,'big')\
+          and int.from_bytes(icmp[26:28], 'big') == int.from_bytes(icm_snum,'big')\
+          and  not int.from_bytes(checksum_calc(icmp[20:]),'big'):
+            print("Passed")
+            break
+    sock.close()                                    # ソケットの切断
     led.value(0)                                    # LEDをOFFにする
     sleep(30)                                       # 30秒間の待ち時間処理
 
