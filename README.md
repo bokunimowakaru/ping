@@ -8,7 +8,7 @@ This repository contains ICMP Ping examples for leaning Ping protocol.
 
 ## Usage for Raspberry Pi  
 
-The ".py" example files on the root directory are for Raspberry Pi OS and the other Linux distributions.  
+The ".py" example files on the root directory are for Raspberry Pi OS and the other Linux distributions. I tested them on Ubuntu 22 and Debian 11).  
 These files are needed the super user privileges.  So, please add a "sudo" command to the beginning of these files to run.  
 
 	pi@raspberry:~/ping $ sudo ./icmp_ping.py  
