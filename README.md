@@ -1,10 +1,18 @@
 # ping: ICMP Ping Code Examples for Raspberry Pi, Raspberry Pi Pico, and ESP32
 
+ICMP Ping の送信や受信を行うサンプル・プログラムです。  
 This repository contains ICMP Ping examples for leaning Ping protocol.  
 
 * icmp_ping.py
 * icmp_logger.py
 * icmp_sender.py
+
+## Language
+
+Select a language to transrate this page:
+
+* [Japanese(日本語)](https://translate.google.com/website?sl=en&tl=ja&hl&u=https://git.bokunimo.com/ping/)
+* [English(英語)](https://git.bokunimo.com/ping/)
 
 ## Usage for Raspberry Pi  
 
@@ -37,6 +45,12 @@ They send ICMP Pings to Google DNS (8.8.8.8).  If you don't like to send out fro
 
 	adr = '8.8.8.8'         # Google DNS
 	adr = '192.168.1.1'     # e.g. Gateway on the LAN
+
+## Security of Super User Privileges
+
+The command added 'sudo' works the highest privileges on the system. It means the code behave without any limitations.  
+If there are security weaknesses in a code, in software libralies, or in the operating system, and the device meets maliciously atacks, you may have a security accident.  
+For improving way of the security for the kind of this code, is to reduce the external inputs and outputs function. And checking all of the input data and discarding unwanted messages is one of the most important countermeasure for the security issue.  
 
 ## GitHub Pages (This Document)
 
