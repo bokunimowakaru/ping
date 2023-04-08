@@ -46,6 +46,14 @@ They send ICMP Pings to Google DNS (8.8.8.8).  If you don't like to send out fro
 	adr = '8.8.8.8'         # Google DNS
 	adr = '192.168.1.1'     # e.g. Gateway on the LAN
 
+## bokunimo.net Blog Site
+
+- 解説ページ(bokunimo.netのブログ内)：  
+	[https://bokunimo.net/blog/raspberry-pi/3512/](https://bokunimo.net/blog/raspberry-pi/3512/)  
+- Google Transrate to English：  
+	[https://bokunimo.net/blog/raspberry-pi/3512/](https://bokunimo-net.translate.goog/blog/raspberry-pi/3512/?_x_tr_sl=ja&_x_tr_tl=en)  
+
+
 ## Security of Super User Privileges
 
 The command added 'sudo' works the highest privileges on the system. It means the code behave without any limitations.  
