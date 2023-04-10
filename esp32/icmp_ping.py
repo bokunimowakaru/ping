@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # coding: utf-8
 # ICMPでPingを送受信する for ESP32 MicroPython
 # Copyright (c) 2023 Wataru KUNINO
@@ -43,7 +42,7 @@ wlan.scan()                                     # Scan for available access poin
 wlan.connect(SSID, PASS)                        # 無線LANに接続
 while not wlan.isconnected():                   # 接続待ち
     print('.', end='')                          # 接続中表示
-    led.toggle()                                # LEDの点灯／非点灯の反転
+    led.value(not led.value())                  # LEDの点灯／非点灯の反転
     sleep(1)                                    # 1秒間の待ち時間処理
 print(wlan.ifconfig()[0])                       # IPアドレスを表示
 print('send Ping "'+body+'" to',adr)
