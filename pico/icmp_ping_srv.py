@@ -89,6 +89,7 @@ while True:
 
                 # Header の生成
                 icm_type = b'\x00'  # Echo Reply
+                icm_csum = b'\x00\x00'  # reset check sum. 
                 header = icm_type + icm_code.to_bytes(1,'big') + icm_csum + icm_idnt + icm_snum
 
                 # Checksum の計算
