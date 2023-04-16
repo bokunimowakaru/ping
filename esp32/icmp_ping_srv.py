@@ -12,7 +12,7 @@ import socket
 from machine import Pin                         # machineのPinを組み込む
 from utime import sleep                         # μtimeからsleepを組み込む
 
-adr = ''                # Google DNS
+adr = ''
 
 def checksum_calc(payload):
     if len(payload)%2 == 1:
@@ -49,8 +49,6 @@ while True:
         while True:
             print(e)                                # エラー内容を表示
             sleep(3)                                # 3秒の待ち時間処理
-    # sock.setsockopt(socket.SOL_IP, socket.IP_HDRINCL, 1)
-    # sock.settimeout(1)
     while sock:
         try:
             icmp = sock.recv(256)                   # 受信データの取得
@@ -106,7 +104,10 @@ while True:
                 for c in payload:
                     print('{:02x}'.format(c), end=' ')          # 送信データを表示
                 print()
-                sock.sendto(payload,(source_adr_s,0))                    # Ping応答
+                try:
+                    sock.sendto(payload,(source_adr_s,0))   # Ping応答
+                except Exception as e:                      # 例外処理発生時
+                    print(e)                                # エラー内容を表示
                 break
 
     sock.close()                                    # ソケットの切断
