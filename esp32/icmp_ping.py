@@ -1,8 +1,8 @@
 # coding: utf-8
-# ICMPでPingを送受信する for ESP32 MicroPython
+# ICMPでPingを送受信する(to Google DNS) for ESP32 MicroPython
 # Copyright (c) 2023 Wataru KUNINO
 
-# ICMPでPingの送受信を行います。
+# ICMPでPingの送受信(to Google DNS)を行います。
 
 SSID = "1234ABCD"                               # 無線LANアクセスポイント SSID
 PASS = "password"                               # パスワード

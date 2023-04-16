@@ -1,8 +1,8 @@
 # coding: utf-8
-# ICMPを送信する for ESP32 MicroPython
+# ICMPを送信する(to Google DNS) for ESP32 MicroPython
 # Copyright (c) 2023 Wataru KUNINO
 
-# ICMPを送信します。
+# ICMPを送信(to Google DNS)します。
 
 SSID = "1234ABCD"                               # 無線LANアクセスポイント SSID
 PASS = "password"                               # パスワード
