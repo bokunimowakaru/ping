@@ -75,7 +75,11 @@ while True:
     for c in payload:
         print('{:02x}'.format(c), end=' ')          # 受信データを表示
     print()
-    sock.sendto(payload,(adr,0))                    # Ping送信
+    try:
+        sock.sendto(payload,(adr,0))            # Ping送信
+    except Exception as e:                      # 例外処理発生時
+        print(e)                                # エラー内容を表示
+        continue
     # sock.setsockopt(socket.SOL_IP, socket.IP_HDRINCL, 1)
     sock.settimeout(1)
     while sock:
