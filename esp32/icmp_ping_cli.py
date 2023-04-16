@@ -33,7 +33,7 @@ def checksum_calc(payload):
     sum = ~(sum) & 0xFFFF
     return sum.to_bytes(2, 'big')
 
-print('ICMP Ping Sender / Reciever')            # タイトル表示
+print('ICMP Ping Sender / Receiver')            # タイトル表示
 body = '0123456789ABCDEF'
 led = Pin(2, Pin.OUT)                           # ESP32 LED用ledを生成
 
