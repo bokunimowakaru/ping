@@ -12,8 +12,6 @@ import socket
 from machine import Pin                         # machineのPinを組み込む
 from utime import sleep                         # μtimeからsleepを組み込む
 
-adr = ''
-
 def checksum_calc(payload):
     if len(payload)%2 == 1:
         payload += b'\x00'  # total length is odd, padded with one octet of zeros
@@ -27,7 +25,7 @@ def checksum_calc(payload):
     sum = ~(sum) & 0xFFFF
     return sum.to_bytes(2, 'big')
 
-print('ICMP Ping Sender / Reciever')            # タイトル表示
+print('ICMP Ping Server')                       # タイトル表示
 led = Pin(2, Pin.OUT)                           # ESP32 LED用ledを生成
 
 wlan = network.WLAN(network.STA_IF)             # 無線LAN用のwlanを生成
