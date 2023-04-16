@@ -38,6 +38,8 @@ led = Pin(2, Pin.OUT)                           # ESP32 LED用ledを生成
 
 wlan = network.WLAN(network.STA_IF)             # 無線LAN用のwlanを生成
 wlan.active(True)                               # 無線LANを起動
+if (wlan.isconnected()):                        # for WiFi re-connect problem
+    wlan.disconnect()                           # maybe not necessary
 wlan.scan()                                     # Scan for available access points
 wlan.connect(SSID, PASS)                        # 無線LANに接続
 while not wlan.isconnected():                   # 接続待ち
@@ -144,4 +146,9 @@ while True:
 # 参考文献 python raw socket: Protocol not supported (stackoverflow)
 '''
     https://stackoverflow.com/questions/19732145/python-raw-socket-protocol-not-supported
+'''
+###############################################################################
+# 参考文献 MicroPython Forum / WiFi re-connect problem
+'''
+    https://forum.micropython.org/viewtopic.php?t=12294
 '''
